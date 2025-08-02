@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diseñador Profesional de Camisetas</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #0f0c29, #1a1a2e, #16213e);
+            color: white;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        .editor-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 50px;
+            width: 100%;
+            max-width: 1300px;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* Panel de controles profesional */
+        .controls-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            background: rgba(15, 23, 42, 0.85);
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 
+                0 12px 40px rgba(0,0,0,0.3),
+                0 0 0 1px rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            min-width: 280px;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+        }
+
+        .controls-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 15px 50px rgba(0,0,0,0.4),
+                0 0 0 1px rgba(255,255,255,0.1);
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .control-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(255,255,255,0.85);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .selected-part-info {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 10px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 42px;
+            transition: all 0.3s ease;
+        }
+
+        .selected-part-info span {
+            display: inline-block;
+            opacity: 0.9;
+        }
+
+        .selected-part-info.empty {
+            opacity: 0.6;
+            font-style: italic;
+        }
+
+        input[type="color"] {
+            -webkit-appearance: none;
+            width: 80px;
+            height: 80px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 
+                0 6px 20px rgba(0,0,0,0.3),
+                inset 0 0 0 2px rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input[type="color"]:hover {
+            transform: scale(1.08);
+            box-shadow: 
+                0 8px 25px rgba(0,0,0,0.4),
+                inset 0 0 0 2px rgba(255,255,255,0.4);
+        }
+
+        input[type="color"]::-webkit-color-swatch {
+            border-radius: 50%;
+            border: none;
+        }
+
+        input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0;
+            border-radius: 50%;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 15px 25px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.95), rgba(67, 56, 202, 0.95));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            width: 100%;
+            box-shadow: 
+                0 4px 15px rgba(0,0,0,0.2),
+                inset 0 1px 1px rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transition: 0.5s;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, rgba(129, 140, 248, 0.95), rgba(79, 70, 229, 0.95));
+            transform: translateY(-3px);
+            box-shadow: 
+                0 8px 20px rgba(99, 102, 241, 0.4),
+                inset 0 1px 1px rgba(255,255,255,0.1);
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        #btn-limpiar {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.95), rgba(185, 28, 28, 0.95));
+        }
+
+        #btn-limpiar:hover {
+            background: linear-gradient(135deg, rgba(248, 113, 113, 0.95), rgba(225, 29, 72, 0.95));
+            box-shadow: 
+                0 8px 20px rgba(239, 68, 68, 0.4),
+                inset 0 1px 1px rgba(255,255,255,0.1);
+        }
+
+        #btn-deseleccionar {
+            background: linear-gradient(135deg, rgba(156, 163, 175, 0.9), rgba(107, 114, 128, 0.9));
+        }
+
+        #btn-deseleccionar:hover {
+            background: linear-gradient(135deg, rgba(209, 213, 219, 0.9), rgba(156, 163, 175, 0.9));
+            box-shadow: 0 8px 20px rgba(156, 163, 175, 0.3);
+        }
+
+        /* Contenedor de la camiseta profesional */
+        .camiseta-container {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            max-width: 600px;
+        }
+
+        .camiseta-glass {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 
+                0 15px 40px rgba(0,0,0,0.3),
+                0 0 0 1px rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.1);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        #camiseta-svg {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            filter: drop-shadow(0 10px 25px rgba(0,0,0,0.4));
+            cursor: pointer;
+            transition: transform 0.5s ease;
+        }
+
+        .parte-camiseta {
+            stroke: rgba(0,0,0,0.2);
+            stroke-width: 0.3;
+            transition: 
+                fill 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                transform 0.3s ease;
+            transform-origin: center;
+        }
+
+        .parte-camiseta:hover {
+            transform: scale(1.02);
+        }
+
+        /* Notificaciones profesionales */
+        .notification {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(15, 23, 42, 0.98);
+            padding: 18px 25px;
+            border-radius: 14px;
+            box-shadow: 
+                0 10px 30px rgba(0,0,0,0.3),
+                0 0 0 1px rgba(255,255,255,0.08);
+            transform: translateX(120%) scale(0.9);
+            opacity: 0;
+            transition: 
+                transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                opacity 0.3s ease;
+            z-index: 100;
+            max-width: 320px;
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .notification.show {
+            transform: translateX(0) scale(1);
+            opacity: 1;
+        }
+
+        .notification.success {
+            border-left: 4px solid #10B981;
+        }
+
+        .notification.error {
+            border-left: 4px solid #EF4444;
+        }
+
+        .notification-info {
+            border-left: 4px solid #3B82F6;
+        }
+
+        .notification-icon {
+            font-size: 22px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: white;
+            font-size: 15px;
+        }
+
+        .notification-message {
+            font-size: 14px;
+            opacity: 0.85;
+            line-height: 1.4;
+            color: rgba(255,255,255,0.8);
+        }
+
+        /* Partículas profesionales */
+        .particles {
+            position: fixed;
+            top: 0; 
+            left: 0;
+            width: 100%; 
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background: linear-gradient(135deg, rgba(165,180,252,0.6), rgba(99,102,241,0.8));
+            border-radius: 50%;
+            animation: float 18s infinite linear;
+            filter: blur(1.5px);
+            opacity: 0;
+        }
+
+        @keyframes float {
+            0% { 
+                transform: translateY(110vh) rotate(0deg) scale(0.8); 
+                opacity: 0; 
+            }
+            10% { 
+                opacity: 0.7; 
+            }
+            90% { 
+                opacity: 0.7; 
+            }
+            100% { 
+                transform: translateY(-100px) rotate(960deg) scale(1); 
+                opacity: 0; 
+            }
+        }
+
+        /* Efecto de selección profesional */
+
+.selected-part {
+    transform: scale(1.03);
+    transition: transform 0.3s ease-out;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+@keyframes subtle-upscale {
+    0%, 100% { 
+        transform: scale(1);
+        stroke-opacity: 0.6;
+    }
+    50% { 
+        transform: scale(1.03);
+        stroke-opacity: 0.9;
+    }
+}
+
+        /* Animación de shake solo para la camiseta */
+        @keyframes camiseta-shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-3px); }
+            20%, 40%, 60%, 80% { transform: translateX(3px); }
+        }
+
+        .camiseta-shake {
+            animation: camiseta-shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+        }
+
+        /* Responsive mejorado */
+        @media (max-width: 1000px) {
+            .editor-container {
+                flex-direction: column-reverse;
+                gap: 30px;
+                padding: 40px 0;
+            }
+            
+            .camiseta-glass {
+                padding: 30px;
+            }
+            
+            #camiseta-svg {
+                max-width: 400px;
+            }
+            
+            .controls-container {
+                width: 100%;
+                max-width: 400px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .camiseta-glass {
+                padding: 20px;
+            }
+            
+            #camiseta-svg {
+                max-width: 300px;
+            }
+            
+            .controls-container {
+                padding: 25px;
+            }
+            
+            button {
+                padding: 14px 20px;
+                font-size: 15px;
+            }
+            
+            .notification {
+                max-width: 280px;
+                right: 20px;
+                top: 20px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            #camiseta-svg {
+                max-width: 260px;
+            }
+            
+            input[type="color"] {
+                width: 70px;
+                height: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="particles" id="particles"></div>
+
+    <div class="editor-container">
+        <!-- Panel de controles -->
+        <div class="controls-container">
+            <div class="control-group">
+                <span class="control-label">Color Seleccionado</span>
+                <input type="color" id="color-picker" value="#ffffff" title="Selecciona un color" />
+                
+                <div class="selected-part-info empty" id="selected-part-info">
+                    <span>Ninguna parte seleccionada</span>
+                </div>
+            </div>
+            
+            <div class="btn-group">
+                <button id="btn-guardar">
+                    Guardar Diseño
+                </button>
+                <button id="btn-deseleccionar">
+                    Deseleccionar
+                </button>
+                <button id="btn-limpiar">
+                    Reiniciar Colores
+                </button>
+            </div>
+        </div>
+
+        <!-- Camiseta con fondo cristal -->
+        <div class="camiseta-container">
+            <div class="camiseta-glass">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="1 2 26 14" id="camiseta-svg">
+                    <path class="parte-camiseta" id="manga-izquierda" d="M 4 8 M 5 3 L 5 6 L 3 7 L 1 5" fill="#ffffff" />
+                    <path class="parte-camiseta" id="torso" d="M 9 5 L 7 3 L 5 3 L 5 6 L 5 12 L 13 12 L 13 6 L 13 3 L 11 3" fill="#ffffff" />
+                    <path class="parte-camiseta" id="manga-derecha" d="M 13 6 L 13 3 L 17 5 L 15 7" fill="#ffffff" />
+                    <path class="parte-camiseta" id="cuelloizq" d="M 8 2 L 7 3 L 9 5 L 8 3" fill="#ffffff" />
+                    <path class="parte-camiseta" id="cuelloder" d="M 10 2 L 11 3 L 9 5 L 10 3 M 1 4" fill="#ffffff" />
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notificación -->
+    <div class="notification" id="notification">
+        <div class="notification-icon">ℹ️</div>
+        <div class="notification-content">
+            <div class="notification-title" id="notif-title">Título</div>
+            <div class="notification-message" id="notif-message">Mensaje de notificación</div>
+        </div>
+    </div>
+
+<script>
+    // Función para mostrar notificaciones mejorada
+    function showNotification(title, message, type = 'info', duration = 3500) {
+        const notif = document.getElementById('notification');
+        const notifTitle = document.getElementById('notif-title');
+        const notifMessage = document.getElementById('notif-message');
+        
+        // Configurar contenido
+        notifTitle.textContent = title;
+        notifMessage.textContent = message;
+        
+        // Configurar estilo según tipo
+        notif.className = 'notification';
+        switch(type) {
+            case 'success':
+                notif.classList.add('success');
+                break;
+            case 'error':
+                notif.classList.add('error');
+                break;
+            default:
+                notif.classList.add('notification-info');
+        }
+        
+        // Cambiar icono
+        const icon = notif.querySelector('.notification-icon');
+        switch(type) {
+            case 'success':
+                icon.textContent = '✓';
+                break;
+            case 'error':
+                icon.textContent = '✗';
+                break;
+            default:
+                icon.textContent = 'ℹ️';
+        }
+        
+        // Mostrar notificación con animación
+        notif.classList.add('show');
+        
+        // Ocultar después de la duración
+        setTimeout(() => {
+            notif.classList.remove('show');
+        }, duration);
+    }
+
+    // Partículas premium
+    function createParticles() {
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = window.innerWidth < 600 ? 20 : 35;
+        
+        particlesContainer.innerHTML = '';
+        
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            
+            // Tamaño y posición
+            const size = Math.random() * 8 + 3;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.top = `${Math.random() * 120 - 20}%`;
+            
+            // Estilo y animación
+            const hue = 230 + Math.random() * 40;
+            particle.style.background = `hsla(${hue}, 80%, 70%, ${Math.random() * 0.5 + 0.3})`;
+            
+            const duration = Math.random() * 15 + 15;
+            const delay = Math.random() * 20;
+            particle.style.animationDuration = `${duration}s`;
+            particle.style.animationDelay = `-${delay}s`;
+            
+            particlesContainer.appendChild(particle);
+        }
+    }
+
+    // Variables globales
+    const svg = document.getElementById('camiseta-svg');
+    const colorPicker = document.getElementById('color-picker');
+    const btnGuardar = document.getElementById('btn-guardar');
+    const btnLimpiar = document.getElementById('btn-limpiar');
+    const btnDeseleccionar = document.getElementById('btn-deseleccionar');
+    const selectedPartInfo = document.getElementById('selected-part-info');
+    const camisetaGlass = document.querySelector('.camiseta-glass');
+    let parteSeleccionada = null;
+    const token = localStorage.getItem('token');
+
+    // Actualizar información de la parte seleccionada
+    function updateSelectedPartInfo() {
+        if (parteSeleccionada) {
+            const partes = {
+                'manga-izquierda': 'Manga Izquierda',
+                'torso': 'Torso Principal',
+                'manga-derecha': 'Manga Derecha',
+                'cuelloizq': 'Cuello Izquierdo', 
+                'cuelloder': 'Cuello Derecho'
+            };
+            
+            selectedPartInfo.innerHTML = `<span>${partes[parteSeleccionada.id] || 'Parte'}</span>`;
+            selectedPartInfo.classList.remove('empty');
+        } else {
+            selectedPartInfo.innerHTML = '<span>Ninguna parte seleccionada</span>';
+            selectedPartInfo.classList.add('empty');
+        }
+    }
+
+    // Deseleccionar parte actual
+    function deselectPart() {
+        if (parteSeleccionada) {
+            parteSeleccionada.classList.remove('selected-part');
+            parteSeleccionada = null;
+            updateSelectedPartInfo();
+            showNotification('Parte Deseleccionada', 'Puedes seleccionar otra área', 'info', 2000);
+        }
+    }
+
+    // Seleccionar parte de la camiseta
+    svg.addEventListener('click', (event) => {
+        if (event.target.classList.contains('parte-camiseta')) {
+            // Quitar selección anterior
+            if (parteSeleccionada) {
+                parteSeleccionada.classList.remove('selected-part');
+            }
+            
+            // Seleccionar nueva parte
+            parteSeleccionada = event.target;
+            parteSeleccionada.classList.add('selected-part');
+            colorPicker.value = parteSeleccionada.getAttribute('fill');
+            
+            // Actualizar información
+            updateSelectedPartInfo();
+            
+            // Feedback visual sutil
+            event.target.style.transform = 'scale(1.03)';
+            setTimeout(() => {
+                event.target.style.transform = 'scale(1)';
+            }, 200);
+        }
+    });
+
+    // Cambiar color de la parte seleccionada
+    colorPicker.addEventListener('input', (event) => {
+        if (parteSeleccionada) {
+            parteSeleccionada.setAttribute('fill', event.target.value);
+            
+            // Efecto de confirmación sutil
+            parteSeleccionada.style.transform = 'scale(1.03)';
+            setTimeout(() => {
+                parteSeleccionada.style.transform = 'scale(1)';
+            }, 150);
+        }
+    });
+
+    // Botón deseleccionar
+    btnDeseleccionar.addEventListener('click', deselectPart);
+
+    // Limpiar todos los colores con animación shake solo a la camiseta
+    btnLimpiar.addEventListener('click', () => {
+        // Aplicar animación shake solo al SVG
+        svg.classList.add('camiseta-shake');
+        
+        // Resetear colores después de un breve delay
+        setTimeout(() => {
+            document.querySelectorAll('.parte-camiseta').forEach(el => {
+                el.setAttribute('fill', '#ffffff');
+                el.classList.remove('selected-part');
+            });
+            
+            parteSeleccionada = null;
+            colorPicker.value = '#ffffff';
+            updateSelectedPartInfo();
+            
+            // Notificación
+            showNotification(
+                'Colores Reiniciados', 
+                'Todos los colores han sido restablecidos', 
+                'success'
+            );
+            
+            // Remover clase shake después de la animación
+            setTimeout(() => {
+                svg.classList.remove('camiseta-shake');
+            }, 500);
+        }, 100);
+    });
+
+    // Guardar diseño
+    btnGuardar.addEventListener('click', async () => {
+        if (!token) {
+            showNotification(
+                'Acceso Requerido', 
+                'Inicia sesión para guardar tus diseños', 
+                'error'
+            );
+            return;
+        }
+        
+        const diseño = {
+            torsoColor: document.getElementById('torso').getAttribute('fill'),
+            mangaIzqColor: document.getElementById('manga-izquierda').getAttribute('fill'),
+            mangaDerColor: document.getElementById('manga-derecha').getAttribute('fill'),
+            cuelloColor: document.getElementById('cuelloizq').getAttribute('fill')
+        };
+        
+        // Estado de carga
+        btnGuardar.textContent = 'Guardando...';
+        btnGuardar.disabled = true;
+        
+        try {
+            const resp = await fetch('/api/camisetas', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json', 
+                    'Authorization': 'Bearer ' + token 
+                },
+                body: JSON.stringify(diseño)
+            });
+            
+            const data = await resp.json();
+            
+            if (!resp.ok) {
+                showNotification(
+                    "Error al Guardar", 
+                    data.error || "Por favor intenta nuevamente", 
+                    "error"
+                );
+                return;
+            }
+            
+            // Efecto visual de éxito
+            svg.style.transform = 'scale(1.03)';
+            setTimeout(() => {
+                svg.style.transform = 'scale(1)';
+            }, 300);
+            
+            showNotification(
+                "Diseño Guardado", 
+                "Tu creación ha sido guardada con éxito", 
+                "success"
+            );
+        } catch (error) {
+            showNotification(
+                "Error de Conexión", 
+                "No se pudo conectar con el servidor", 
+                "error"
+            );
+        } finally {
+            btnGuardar.textContent = 'Guardar Diseño';
+            btnGuardar.disabled = false;
+        }
+    });
+
+    // Inicialización
+    document.addEventListener('DOMContentLoaded', () => {
+        createParticles();
+        updateSelectedPartInfo();
+        
+        // Mensaje de bienvenida con delay
+        setTimeout(() => {
+            showNotification(
+                "Bienvenido al Diseñador", 
+                "Selecciona cada parte de la camiseta para personalizarla", 
+                'info', 
+                4500
+            );
+        }, 800);
+    });
+
+    // Recrear partículas al redimensionar
+    window.addEventListener('resize', createParticles);
+</script>
+</body>
+</html>
