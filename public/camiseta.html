@@ -36,7 +36,6 @@
             z-index: 5;
         }
 
-        /* Panel de controles profesional */
         .controls-container {
             display: flex;
             flex-direction: column;
@@ -252,7 +251,6 @@
             transform: scale(1.02);
         }
 
-        /* Notificaciones profesionales */
         .notification {
             position: fixed;
             top: 30px;
@@ -318,7 +316,6 @@
             color: rgba(255,255,255,0.8);
         }
 
-        /* Partículas profesionales */
         .particles {
             position: fixed;
             top: 0; 
@@ -355,7 +352,6 @@
             }
         }
 
-        /* Efecto de selección profesional */
 
 .selected-part {
     transform: scale(1.03);
@@ -374,7 +370,6 @@
     }
 }
 
-        /* Animación de shake solo para la camiseta */
         @keyframes camiseta-shake {
             0%, 100% { transform: translateX(0); }
             10%, 30%, 50%, 70%, 90% { transform: translateX(-3px); }
@@ -449,7 +444,6 @@
     <div class="particles" id="particles"></div>
 
     <div class="editor-container">
-        <!-- Panel de controles -->
         <div class="controls-container">
             <div class="control-group">
                 <span class="control-label">Color Seleccionado</span>
@@ -473,7 +467,6 @@
             </div>
         </div>
 
-        <!-- Camiseta con fondo cristal -->
         <div class="camiseta-container">
             <div class="camiseta-glass">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="1 2 26 14" id="camiseta-svg">
@@ -487,7 +480,6 @@
         </div>
     </div>
 
-    <!-- Notificación -->
     <div class="notification" id="notification">
         <div class="notification-icon">ℹ️</div>
         <div class="notification-content">
@@ -542,7 +534,7 @@
         }, duration);
     }
 
-    // Partículas premium
+    // Partículas
     function createParticles() {
         const particlesContainer = document.getElementById('particles');
         const particleCount = window.innerWidth < 600 ? 20 : 35;
@@ -642,7 +634,7 @@
         if (parteSeleccionada) {
             parteSeleccionada.setAttribute('fill', event.target.value);
             
-            // Efecto de confirmación sutil
+            // Efecto de confirmación
             parteSeleccionada.style.transform = 'scale(1.03)';
             setTimeout(() => {
                 parteSeleccionada.style.transform = 'scale(1)';
@@ -754,7 +746,7 @@
         createParticles();
         updateSelectedPartInfo();
         
-        // Mensaje de bienvenida con delay
+        // Mensaje de bienvenida
         setTimeout(() => {
             showNotification(
                 "Bienvenido al Diseñador", 
